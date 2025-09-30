@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
@@ -8,17 +9,49 @@ PAY_PERIOD_START = datetime(2025, 9, 8).date()
 PAY_PERIOD_LENGTH = 14
 TARGET_HOURS = 60
 
-# Load work log
+# Load existing data
 try:
     df = pd.read_csv(CSV_FILE, parse_dates=["Date"])
 except FileNotFoundError:
     df = pd.DataFrame(columns=["Date", "Start Time", "End Time", "Break Start", "Break End", "Work Duration (hrs)"])
 
-# Reverse order of logs (newest first)
+# Title
+st.title("Work Time Tracker")
+
+# Input form
+st.subheader("Log New Work Entry")
+with st.form("log_form"):
+    date = st.date_input("Date")
+    start_time = st.time_input("Start Time")
+    end_time = st.time_input("End Time")
+    break_start = st.time_input("Break Start")
+    break_end = st.time_input("Break End")
+    submitted = st.form_submit_button("Log Work")
+
+    if submitted:
+        start_dt = datetime.combine(date, start_time)
+        end_dt = datetime.combine(date, end_time)
+        break_start_dt = datetime.combine(date, break_start)
+        break_end_dt = datetime.combine(date, break_end)
+        work_duration = (end_dt - start_dt - (break_end_dt - break_start_dt)).total_seconds() / 3600
+
+        new_entry = {
+            "Date": date,
+            "Start Time": start_time.strftime("%H:%M"),
+            "End Time": end_time.strftime("%H:%M"),
+            "Break Start": break_start.strftime("%H:%M"),
+            "Break End": break_end.strftime("%H:%M"),
+            "Work Duration (hrs)": round(work_duration, 2)
+        }
+
+        df = pd.concat([df, pd.DataFrame([new_entry])], ignore_index=True)
+        df.to_csv(CSV_FILE, index=False)
+        st.success(f"Logged {round(work_duration, 2)} hours for {date}")
+
+# Reverse order of logs
 df = df.sort_values(by="Date", ascending=False)
 
 # Display logs
-st.title("Work Time Tracker")
 st.subheader("Logged Work Entries (Newest First)")
 st.dataframe(df)
 
@@ -39,7 +72,7 @@ st.write(f"**Period:** {current_period_start} to {current_period_end}")
 st.write(f"**Total Hours:** {round(current_total_hours, 2)}")
 st.write(f"**Overtime:** {round(current_overtime, 2)} hours")
 
-# Summary of all completed pay periods
+# Summary of completed pay periods
 completed_periods = []
 for i in range(current_period_index):
     period_start = PAY_PERIOD_START + timedelta(days=i * PAY_PERIOD_LENGTH)
