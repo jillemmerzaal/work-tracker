@@ -1,7 +1,7 @@
 
 import streamlit as st
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 # Constants
 CSV_FILE = "work_log.csv"
@@ -22,10 +22,10 @@ st.title("Work Time Tracker")
 st.subheader("Log New Work Entry")
 with st.form("log_form"):
     date = st.date_input("Date")
-    start_time = st.time_input("Start Time")
-    end_time = st.time_input("End Time")
-    break_start = st.time_input("Break Start")
-    break_end = st.time_input("Break End")
+    start_time = st.time_input("Start Time", value=time(9,0))
+    end_time = st.time_input("End Time", value=time(16,0))
+    break_start = st.time_input("Break Start", value=time(0,0))
+    break_end = st.time_input("Break End", value=time(0,0))
     submitted = st.form_submit_button("Log Work")
 
     if submitted:
