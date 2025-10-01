@@ -1,10 +1,9 @@
-
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta, time
 
 # Constants
-CSV_FILE = "work_log.csv"
+CSV_FILE = "work-log.csv"
 PAY_PERIOD_START = datetime(2025, 9, 8).date()
 PAY_PERIOD_LENGTH = 14
 TARGET_HOURS = 60
@@ -12,10 +11,10 @@ TARGET_HOURS = 60
 # Load existing data
 try:
     df = pd.read_csv(CSV_FILE, parse_dates=["Date"])
-    df["Date"] = pd.to_datetime(df["Date"]).dt.date
+    df["Date"] = pd.to_datetime(df["Date"])
 except FileNotFoundError:
     df = pd.DataFrame(columns=["Date", "Start Time", "End Time", "Break Start", "Break End", "Work Duration (hrs)"])
-    df["Date"] = pd.to_datetime(df["Date"]).dt.date
+
 
 # Title
 st.title("Work Time Tracker")
