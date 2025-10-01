@@ -15,6 +15,7 @@ try:
     df["Date"] = pd.to_datetime(df["Date"]).dt.date
 except FileNotFoundError:
     df = pd.DataFrame(columns=["Date", "Start Time", "End Time", "Break Start", "Break End", "Work Duration (hrs)"])
+    df["Date"] = pd.to_datetime(df["Date"]).dt.date
 
 # Title
 st.title("Work Time Tracker")
