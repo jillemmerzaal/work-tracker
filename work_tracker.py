@@ -52,10 +52,6 @@ with st.form("log_form"):
 # Reverse order of logs
 df = df.sort_values(by="Date", ascending=False)
 
-# Display logs
-st.subheader("Logged Work Entries (Newest First)")
-st.dataframe(df)
-
 # Determine current pay period
 today = datetime.now().date()
 days_since_start = (today - PAY_PERIOD_START).days
@@ -102,6 +98,10 @@ st.download_button(
     file_name="work_log.csv",
     mime="text/csv"
 )
+
+# Display logs
+st.subheader("Logged Work Entries (Newest First)")
+st.dataframe(df)
 
 
 # Edit/Delete Entry
