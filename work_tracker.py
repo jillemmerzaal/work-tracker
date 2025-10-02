@@ -64,7 +64,7 @@ current_period_start = PAY_PERIOD_START + timedelta(days=current_period_index * 
 current_period_end = current_period_start + timedelta(days=PAY_PERIOD_LENGTH - 1)
 
 # Filter current pay period
-current_period_df = df[(df["Date"] >= pd.Timestamp(current_period_start)) & (df["Date"] <= pd.Timestamp(current_period_end))]
+current_period_df = df[(df["Date"] >= current_period_start) & (df["Date"] <= current_period_end)]
 current_total_hours = current_period_df["Work Duration (hrs)"].sum()
 current_overtime = current_total_hours - TARGET_HOURS
 
