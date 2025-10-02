@@ -11,7 +11,7 @@ TARGET_HOURS = 60
 # Load existing data
 try:
     df = pd.read_csv(CSV_FILE, parse_dates=["Date"])
-    df["Date"] = pd.to_datetime(df["Date"])
+    df["Date"] = pd.to_datetime(df["Date"]).dt.date
 except FileNotFoundError:
     df = pd.DataFrame(columns=["Date", "Start Time", "End Time", "Break Start", "Break End", "Work Duration (hrs)"])
 
