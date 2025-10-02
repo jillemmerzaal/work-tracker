@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta, time
 
 # Constants
-CSV_FILE = "work-log.csv"
+CSV_FILE = "work_log.csv"
 PAY_PERIOD_START = datetime(2025, 9, 8).date()
 PAY_PERIOD_LENGTH = 14
 TARGET_HOURS = 60
