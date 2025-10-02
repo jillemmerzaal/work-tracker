@@ -75,7 +75,7 @@ current_overtime = current_total_hours - TARGET_HOURS
 st.subheader("Current Pay Period Summary")
 st.write(f"**Period:** {current_period_start} to {current_period_end}")
 st.write(f"**Total Hours:** {format_hours_minutes(current_total_hours)}")
-st.write(f"**Overtime:** {format_hours_minutes(current_overtime)} hours")
+st.write(f"**Overtime:** {format_hours_minutes(current_overtime)}")
 
 # Summary of completed pay periods
 completed_periods = []
