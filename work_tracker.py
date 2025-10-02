@@ -78,7 +78,7 @@ completed_periods = []
 for i in range(current_period_index):
     period_start = PAY_PERIOD_START + timedelta(days=i * PAY_PERIOD_LENGTH)
     period_end = period_start + timedelta(days=PAY_PERIOD_LENGTH - 1)
-    period_df = df[(df["Date"] >= pd.Timestamp(period_start)) & (df["Date"] <= pd.Timestamp(period_end))]
+    period_df = df[(df["Date"] >= period_start) & (df["Date"] <= period_end)]
     total_hours = period_df["Work Duration (hrs)"].sum()
     overtime = total_hours - TARGET_HOURS
     completed_periods.append({
