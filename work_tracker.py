@@ -8,6 +8,14 @@ PAY_PERIOD_START = datetime(2025, 9, 8).date()
 PAY_PERIOD_LENGTH = 14
 TARGET_HOURS = 60
 
+# Helper function to format hours and minutes
+def format_hours_minutes(hours_float):
+    sign = "-" if hours_float < 0 else ""
+    total_minutes = int(round(abs(hours_float) * 60))
+    hours = total_minutes // 60
+    minutes = total_minutes % 60
+    return f"{sign}{hours}h {minutes}m"
+
 # Load existing data
 try:
     df = pd.read_csv(CSV_FILE, parse_dates=["Date"])
@@ -66,8 +74,8 @@ current_overtime = current_total_hours - TARGET_HOURS
 
 st.subheader("Current Pay Period Summary")
 st.write(f"**Period:** {current_period_start} to {current_period_end}")
-st.write(f"**Total Hours:** {round(current_total_hours, 2)}")
-st.write(f"**Overtime:** {round(current_overtime, 2)} hours")
+st.write(f"**Total Hours:** {format_hours_minutes(current_total_hours)}")
+st.write(f"**Overtime:** {format_hours_minutes(current_overtime)} hours")
 
 # Summary of completed pay periods
 completed_periods = []
@@ -80,8 +88,8 @@ for i in range(current_period_index):
     completed_periods.append({
         "Period Start": period_start,
         "Period End": period_end,
-        "Total Hours": round(total_hours, 2),
-        "Overtime": round(overtime, 2)
+        "Total Hours": format_hours_minutes(total_hours),
+        "Overtime": format_hours_minutes(overtime)
     })
 
 if completed_periods:
